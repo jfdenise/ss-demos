@@ -8,6 +8,9 @@ spec:
     matchLabels:
       app: web-clustering-wildfly
   template:
+    metadata:
+      labels:
+        app: web-clustering-wildfly
     spec:
       containers:
         - name: web-clustering
@@ -61,12 +64,12 @@ apiVersion: v1
 metadata:
   name: web-clustering
 spec:
-ports:
+ ports:
   - name: http-8080
     port: 8080
     protocol: TCP
     targetPort: 8080
-selector:
+ selector:
   app: web-clustering-wildfly
 ---
 kind: Service
