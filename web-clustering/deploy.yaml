@@ -4,6 +4,9 @@ metadata:
   name: web-clustering
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      app: web-clustering-wildfly
   template:
     spec:
       containers:
@@ -63,6 +66,8 @@ ports:
     port: 8080
     protocol: TCP
     targetPort: 8080
+selector:
+  app: web-clustering-wildfly
 ---
 kind: Service
 apiVersion: v1
@@ -72,6 +77,8 @@ metadata:
     description: The JGroups ping port for clustering.
     service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
 spec:
+  selector:
+    app: web-clustering-wildfly
   type: ClusterIP
   clusterIP: None
   sessionAffinity: None
