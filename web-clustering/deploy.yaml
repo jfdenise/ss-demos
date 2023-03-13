@@ -4,13 +4,10 @@ metadata:
   name: web-clustering
 spec:
   replicas: 2
-  selector:
-    matchLabels:
-      app: web-clustering-wildfly
   template:
     metadata:
       labels:
-        app: web-clustering-wildfly
+        app.kubernetes.io/name: web-clustering-wildfly
     spec:
       containers:
         - name: web-clustering
@@ -81,7 +78,7 @@ metadata:
     service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
 spec:
   selector:
-    app: web-clustering-wildfly
+    app.kubernetes.io/name: web-clustering-wildfly
   type: ClusterIP
   clusterIP: None
   sessionAffinity: None
