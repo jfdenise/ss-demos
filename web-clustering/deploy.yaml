@@ -66,8 +66,6 @@ spec:
     port: 8080
     protocol: TCP
     targetPort: 8080
- selector:
-  app: web-clustering-wildfly
 ---
 kind: Service
 apiVersion: v1
