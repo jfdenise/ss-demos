@@ -5,6 +5,9 @@ metadata:
 spec:
   replicas: 1
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: microprofile-wildfly
     spec:
       containers:
         - name: microprofile
@@ -58,7 +61,7 @@ apiVersion: v1
 metadata:
   name: microprofile
 spec:
-ports:
+ ports:
   - name: http-8080
     port: 8080
     protocol: TCP
@@ -72,6 +75,8 @@ metadata:
     description: The JGroups ping port for clustering.
     service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
 spec:
+  selector:
+    app.kubernetes.io/name: microprofile-wildfly
   type: ClusterIP
   clusterIP: None
   sessionAffinity: None
