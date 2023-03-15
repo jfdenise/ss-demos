@@ -1,0 +1,57 @@
+schemaVersion: 2.2.0
+metadata:
+  name: java-eap
+  version: 1.0.0
+  provider: Red Hat
+  supportUrl: https://github.com/devfile-samples/devfile-support#support-information
+  icon: https://design.jboss.org/wildfly/logo/final/wildfly_logomark.svg
+  website: https://wildfly.org
+  displayName: JBoss EAP
+  description: JBoss EAP
+  tags:
+    - Java
+    - JBossEAP
+  projectType: JBossEAP
+  language: Java
+  attributes:
+    alpha.dockerimage-port: 8080
+#parent:
+#  id: java-wildfly
+#  registryUrl: 'https://registry.devfile.io'
+components:
+  - name: image-build
+    image:
+      imageName: java-useless-image:latest
+      dockerfile:
+        uri: src/main/docker/Dockerfile
+        buildContext: .
+        rootRequired: false
+  - name: kubernetes-deploy
+    attributes:
+      deployment/replicas: 1
+      deployment/cpuLimit: '1'
+      deployment/cpuRequest: 10m
+      deployment/memoryLimit: 512Mi
+      deployment/memoryRequest: 50Mi
+      deployment/container-port: 8080
+    kubernetes:
+      uri: deploy.yaml
+      endpoints:
+        - name: http-8080
+          targetPort: 8080
+          path: /
+commands:
+  - id: build-image
+    apply:
+      component: image-build
+  - id: deployk8s
+    apply:
+      component: kubernetes-deploy
+  - id: deploy
+    composite:
+      commands:
+        - build-image
+        - deployk8s
+      group:
+        kind: deploy
+        isDefault: true

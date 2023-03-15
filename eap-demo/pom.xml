@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.jboss.demo</groupId>
+    <artifactId>mp-demo</artifactId>
+    <version>1.0.0</version>
+    <packaging>war</packaging>
+
+    <name>Microprofile Example</name>
+    <description>An example of how to use Micro[profile config</description>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+    </properties>
+    <repositories>
+        <repository>  
+            <id>techpreview</id>  
+            <name>tech preview</name>  
+            <url>https://maven.repository.redhat.com/earlyaccess/all</url>  
+            <layout>default</layout>  
+            <releases>  
+                <enabled>true</enabled>  
+                <updatePolicy>never</updatePolicy>  
+            </releases>  
+            <snapshots>  
+                <enabled>false</enabled>  
+                <updatePolicy>never</updatePolicy>  
+            </snapshots>  
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>  
+            <id>techpreview-plugin</id>  
+            <name>techpreview-plugin</name>  
+            <url>https://maven.repository.redhat.com/earlyaccess/all</url>  
+            <layout>default</layout>  
+            <releases>  
+                <enabled>true</enabled>  
+                <updatePolicy>never</updatePolicy>  
+            </releases>  
+            <snapshots>  
+                <enabled>false</enabled>  
+                <updatePolicy>never</updatePolicy>  
+            </snapshots>  
+        </pluginRepository>
+    </pluginRepositories>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>ROOT</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jboss.eap.plugins</groupId>
+                <artifactId>eap-maven-plugin</artifactId>
+                <version>${env.PROVISIONING_MAVEN_PLUGIN_VERSION}</version>
+                <configuration>
+                    <channels>
+                        <channel>
+                            <groupId>org.jboss.eap.channels</groupId>
+                            <artifactId>eap-8.0-beta</artifactId>
+                        </channel>
+                    </channels>
+                    <!-- some tests check for the provisioned galleon layers -->
+                    <record-provisioning-state>true</record-provisioning-state>
+                    <feature-packs>
+                        <feature-pack>
+                            <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                        </feature-pack>
+                        <feature-pack>
+                            <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                        </feature-pack>
+                    </feature-packs>
+                    <layers>
+                        <layer>jaxrs-server</layer>
+                    </layers>
+                    <plugin-options>
+                        <jboss-fork-embedded>true</jboss-fork-embedded>
+                    </plugin-options>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
