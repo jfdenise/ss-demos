@@ -26,6 +26,10 @@ spec:
     value: microprofile
   - name: revision
     value: '{{revision}}'
+  - name: skip-checks
+    value: "true"
+  - name: java
+    value: "true"
   pipelineSpec:
     finally:
     - name: show-summary
