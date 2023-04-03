@@ -30,6 +30,8 @@ spec:
     value: "true"
   - name: java
     value: "true"
+  - name: prefetch-input
+    value: "true"
   pipelineSpec:
     finally:
     - name: show-summary
